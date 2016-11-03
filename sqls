@@ -1,0 +1,103 @@
+SELECT * FROM public.sentiment_all
+GO
+    
+
+create table tweeter_live
+(
+date_found timestamp,
+sentiment decimal(6,3)
+);
+
+alter table sentiment_all chan
+
+
+
+SELECT * FROM public.tweeter_live
+GO
+
+
+UPDATE public.tweeter_live 
+	SET sentiment=0.01 
+	WHERE sentiment = 0 
+GO
+
+
+
+CREATE TABLE public.sentiment_all_changetrend as  select * from public.sentiment_all 
+go
+
+
+
+SELECT * FROM public.sentiment_all_changetrend  where sentiment =0.03
+GO
+
+UPDATE public.sentiment_all_changetrend
+	SET sentiment=0.03
+	WHERE sentiment = 0 
+GO
+
+
+=========================
+process running :
+
+select pid, user_name, starttime, query
+from stv_recents
+where status='Running'
+go
+
+select *
+from stv_recents
+where status='Running'
+go
+
+select *
+from stv_recents
+where pid='124648'
+go
+
+
+
+
+
+=====================================
+Eg of create statement in postgreSQL
+
+CREATE TABLE abc.cde  ( 
+	trade_dt            	date NOT NULL ENCODE LZO,
+	issue_sym_id        	varchar(14) NOT NULL ENCODE LZO,
+	tm_div         	      numeric(12,6) NOT NULL ENCODE LZO,
+	next_pbbo_tm_div    	numeric(12,6) NULL ENCODE LZO,
+	bid_pr              	numeric(18,8) NULL ENCODE LZO,
+	size_qt         	    int4 NULL ENCODE BYTEDICT,
+	msg_seq_nb          	int8 NOT NULL ENCODE DELTA32K,
+	bid_mkt_cntr_list_cd	varchar(150) NULL ENCODE LZO,
+	ask_mkt_cntr_list_cd	varchar(150) NULL ENCODE LZO,
+	src            	      varchar(5) NOT NULL ENCODE LZO 
+	)
+DISTSTYLE EVEN
+SORTKEY ( trade_dt, issue_sym_id, tm_div )
+GO
+GRANT SELECT ON abc.cde TO app
+GO
+GRANT SELECT ON abc.cde TO perf
+GO
+GRANT SELECT ON abc.cde TO read
+GO
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, RULE ON abc.cde TO write
+GO
+
+
+//find count per other field
+
+SELECT distinct specno , count(*)
+	FROM  abc.cde
+where tdate = '2016-09-06'
+group by 1
+order by 1
+GO
+
+//   min max 
+
+SELECT MIN(tdate) , MAX(tdate) FROM abc.cde
+
+
